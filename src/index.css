@@ -56,11 +56,31 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/30 backdrop-blur-lg border border-white/40 shadow-lg;
+    @apply bg-white/20 backdrop-blur-md border border-white/40 shadow-lg relative overflow-hidden;
+  }
+  
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-50;
   }
   
   .glass-card-dark {
-    @apply bg-black/30 backdrop-blur-lg border border-white/10 shadow-lg;
+    @apply bg-black/30 backdrop-blur-lg border border-white/10 shadow-lg relative overflow-hidden;
+  }
+  
+  .glass-card-dark::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-marvel-red/10 via-transparent to-marvel-gold/10 opacity-30;
+  }
+  
+  .glass-card-marvel {
+    @apply relative overflow-hidden backdrop-blur-lg bg-gradient-to-br from-marvel-red/20 to-marvel-gold/20 border border-marvel-gold/30 shadow-lg;
+  }
+  
+  .glass-card-marvel::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-tr from-marvel-red/20 via-transparent to-marvel-gold/20;
+    animation: shimmer 3s infinite alternate;
   }
   
   .comic-heading {
@@ -68,7 +88,7 @@
   }
   
   .comic-card {
-    @apply overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+    @apply overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-marvel-gold/20 hover:scale-[1.02];
   }
   
   .comic-shine {
@@ -105,20 +125,29 @@
     }
   }
   
+  @keyframes shimmer {
+    0% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+  
   .article-content h2 {
-    @apply text-2xl md:text-3xl font-comic text-primary mt-8 mb-4;
+    @apply text-2xl md:text-3xl font-comic text-marvel-red mt-8 mb-4 drop-shadow-md;
   }
   
   .article-content h3 {
-    @apply text-xl md:text-2xl font-comic text-secondary mt-6 mb-3;
+    @apply text-xl md:text-2xl font-comic text-marvel-blue mt-6 mb-3 drop-shadow-sm;
   }
   
   .article-content p {
-    @apply my-4 text-base md:text-lg leading-relaxed;
+    @apply my-4 text-base md:text-lg leading-relaxed text-gray-100;
   }
   
   .article-content ul {
-    @apply my-4 list-disc pl-5;
+    @apply my-4 list-disc pl-5 text-gray-100;
   }
   
   .article-content li {
@@ -126,6 +155,18 @@
   }
   
   .article-content .key-note {
-    @apply my-6 p-4 bg-accent/10 border-l-4 border-accent rounded-r-lg;
+    @apply my-6 p-4 bg-marvel-gold/20 border-l-4 border-marvel-gold rounded-r-lg text-white backdrop-blur-sm;
+  }
+  
+  .marvel-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-marvel-red to-marvel-gold font-comic;
+  }
+  
+  .marvel-card-glow {
+    @apply hover:shadow-lg hover:shadow-marvel-red/30 transition-all duration-300;
+  }
+  
+  .marvel-border {
+    @apply border-2 border-marvel-gold/50;
   }
 }
