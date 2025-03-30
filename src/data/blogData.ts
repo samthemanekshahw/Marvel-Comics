@@ -16,6 +16,9 @@ export interface BlogPost {
 
 // Helper function to generate a slug from a title
 const slugify = (text: string) => {
+  // Add null check before calling toLowerCase
+  if (!text) return '';
+  
   return text
     .toLowerCase()
     .replace(/[^\w ]+/g, '')
@@ -260,6 +263,9 @@ const generateBlogPosts = (): BlogPost[] => {
   const posts: BlogPost[] = [];
   
   for (let i = 0; i < 80; i++) {
+    // Make sure we don't go beyond the length of the blogTitles array
+    if (i >= blogTitles.length) break;
+    
     const title = blogTitles[i];
     const slug = slugify(title);
     const category = categories[Math.floor(Math.random() * categories.length)];
