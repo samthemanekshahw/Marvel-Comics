@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import BlogCard from "./BlogCard";
 import { getRecentBlogPosts } from "@/data/blogData";
 import { useState } from "react";
+import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
 
 const LatestBlogs = () => {
-  // Get 6 most recent blog posts from our data
-  const latestBlogs = getRecentBlogPosts(6);
+  // Get 9 most recent blog posts from our data to show more content
+  const latestBlogs = getRecentBlogPosts(9);
   const [displayCount, setDisplayCount] = useState(3);
   
   const loadMore = () => {
@@ -40,9 +42,7 @@ const LatestBlogs = () => {
           </h2>
           <Link to="/blog" className="font-comic text-white hover:text-marvel-gold transition-colors flex items-center group relative overflow-hidden px-4 py-2 rounded-md bg-gradient-to-r from-marvel-red/20 to-marvel-gold/20 backdrop-blur-sm border border-white/10">
             <span className="relative z-10">VIEW ALL</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform relative z-10" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
+            <ChevronRight className="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform relative z-10" />
             <span className="absolute inset-0 bg-gradient-to-r from-marvel-gold/20 to-marvel-red/20 opacity-0 group-hover:opacity-100 transition-opacity"></span>
           </Link>
         </div>
@@ -55,13 +55,13 @@ const LatestBlogs = () => {
         
         {displayCount < latestBlogs.length && (
           <div className="mt-10 text-center">
-            <button 
+            <Button 
               onClick={loadMore}
               className="font-comic text-white hover:text-marvel-gold transition-colors px-6 py-3 bg-gradient-to-r from-marvel-red/30 to-marvel-gold/30 hover:from-marvel-red/50 hover:to-marvel-gold/50 rounded-md border border-white/10 backdrop-blur-sm relative overflow-hidden group"
             >
               <span className="relative z-10">LOAD MORE ARTICLES</span>
               <span className="absolute inset-0 bg-gradient-to-r from-marvel-red/20 to-marvel-gold/20 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-            </button>
+            </Button>
           </div>
         )}
       </div>

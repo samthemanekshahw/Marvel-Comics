@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getBlogPostBySlug, getRecentBlogPosts, BlogPost } from "@/data/blogData";
+import { getBlogPostBySlug, getRecentBlogPosts } from "@/data/blogData";
 import { Star } from "lucide-react";
 
 const BlogPostPage = () => {
@@ -82,7 +82,7 @@ const BlogPostPage = () => {
             {/* Main Content */}
             <article className="lg:w-2/3">
               <div className="glass-card-dark p-8 rounded-lg">
-                <div className="prose prose-lg max-w-none article-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className="prose prose-lg max-w-none article-content prose-headings:font-comic prose-headings:text-marvel-gold prose-headings:my-6 prose-p:text-gray-200 prose-p:leading-relaxed prose-p:mb-6 prose-strong:text-marvel-red prose-a:text-marvel-gold prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:my-8 prose-blockquote:border-marvel-red prose-blockquote:bg-marvel-red/10 prose-blockquote:p-4 prose-blockquote:rounded-md prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-white" dangerouslySetInnerHTML={{ __html: post.content }} />
                 
                 {/* Tags */}
                 <div className="mt-10 pt-6 border-t border-marvel-gold/30">

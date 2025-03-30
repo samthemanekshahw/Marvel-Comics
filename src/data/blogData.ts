@@ -400,48 +400,111 @@ const generateContent = (title: string, category: string) => {
   `;
 };
 
-// Function to generate all blog posts
+// Function to generate blog posts with enhanced content
 const generateBlogPosts = (): BlogPost[] => {
+  const characters = [
+    "Spider-Man", "Iron Man", "Captain America", "Thor", "Black Widow", "Hulk", 
+    "Doctor Strange", "Black Panther", "Scarlet Witch", "Vision", "Hawkeye", 
+    "Ant-Man", "Wasp", "Captain Marvel", "Falcon", "Winter Soldier", "Loki", 
+    "Gamora", "Star-Lord", "Rocket Raccoon", "Groot", "Drax", "Nebula", 
+    "Mantis", "Shang-Chi", "Ms. Marvel", "Moon Knight", "She-Hulk"
+  ];
+  
+  const topics = [
+    "Origin Story", "Powers and Abilities", "Character Evolution", "Key Storylines", 
+    "Film Adaptation", "Cultural Impact", "Team-Ups", "Greatest Battles", 
+    "Alternate Versions", "Legacy", "Future Directions", "Comic History", 
+    "Character Relationships", "Villains and Rogues Gallery", "Powers Explained",
+    "Cinematic Journey", "Comic Arcs", "Hidden Secrets", "Untold Stories"
+  ];
+  
+  const categories = [
+    "Character Spotlight", "Comic Reviews", "MCU Analysis", "History of Marvel", 
+    "Fan Theories", "Upcoming Releases", "Creator Interviews", "Behind The Scenes", 
+    "Collectibles & Merchandise", "Marvel Games", "Comic Art"
+  ];
+
   const posts: BlogPost[] = [];
+  let id = 1;
   
-  for (let i = 0; i < blogTitles.length; i++) {
-    // Safety check to make sure we have a valid title
-    if (!blogTitles[i]) continue;
-    
-    const title = blogTitles[i];
-    const slug = slugify(title);
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const author = authors[Math.floor(Math.random() * authors.length)];
-    const date = generateRandomDate();
-    const image = imageUrls[i % imageUrls.length];
-    const tags = [
-      category.toLowerCase().replace(' ', '-'),
-      'marvel',
-      'comics',
-      title.split(' ')[0].toLowerCase(),
-      title.split(' ')[1]?.toLowerCase() || 'superhero',
-    ];
-    
-    posts.push({
-      id: i + 1,
-      title,
-      slug,
-      excerpt: `An in-depth exploration of ${title.toLowerCase()}, examining the character's development, key storylines, and cultural impact in Marvel comics and beyond.`,
-      image,
-      category,
-      date,
-      content: generateContent(title, category),
-      author,
-      tags
-    });
-  }
+  // Generate articles for each character with multiple topics
+  characters.forEach(character => {
+    // Multiple articles per character with different topics
+    for (let i = 0; i < 8; i++) {
+      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      
+      // Generate dates within the last 2 years, more recent for main characters
+      const monthsAgo = Math.floor(Math.random() * 24);
+      const date = new Date();
+      date.setMonth(date.getMonth() - monthsAgo);
+      
+      // Format the date as "Month Day, Year"
+      const formattedDate = date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      
+      // Generate tag list based on character and topic
+      const tags = [
+        character.split(' ')[0].toLowerCase(),
+        randomTopic.split(' ')[0].toLowerCase(),
+        randomCategory.split(' ')[0].toLowerCase(),
+        'marvel',
+        monthsAgo < 6 ? 'recent' : 'archive'
+      ];
+      
+      // Create unique title combining character and topic
+      const title = `${randomTopic}: ${character}'s ${topics[Math.floor(Math.random() * topics.length)].split(' ')[0]} Journey`;
+      
+      // Use placeholder images (in a real app, these would be character-specific)
+      const image = `https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&h=800&q=80`;
+      
+      // Generate rich content with proper headings
+      const content = generateRichBlogContent(title, character, randomTopic);
+      
+      // Create excerpt
+      const excerpt = generateShortPreview(character);
+      
+      // Create slug from title
+      const slug = slugify(title);
+      
+      // Randomly select an author
+      const authors = [
+        "Stan Wilson", "Jack Kirby", "Steve Rogers", "Mary Parker", 
+        "Chris Evans", "Natasha Downey", "Bruce Banner", "Anthony Stark"
+      ];
+      const author = authors[Math.floor(Math.random() * authors.length)];
+      
+      // Add the post to our collection
+      posts.push({
+        id,
+        title,
+        slug,
+        excerpt,
+        content,
+        image,
+        category: randomCategory,
+        date: formattedDate,
+        author,
+        tags
+      });
+      
+      id++;
+    }
+  });
   
-  // Sort posts by date (newest first)
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  // Sort posts by date (most recent first)
+  return posts.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateB.getTime() - dateA.getTime();
+  });
 };
 
-// Export the generated blog posts
-export const blogPosts: BlogPost[] = generateBlogPosts();
+// Function to generate all blog posts
+export const blogPosts = generateBlogPosts();
 
 // Function to get a blog post by slug
 export const getBlogPostBySlug = (slug: string): BlogPost | undefined => {

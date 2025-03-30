@@ -1,11 +1,12 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -13,9 +14,16 @@ const Navbar = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would redirect to search results
-    console.log("Searching for:", searchQuery);
-    window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery("");
+      if (isMenuOpen) setIsMenuOpen(false);
+    }
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (isMenuOpen) setIsMenuOpen(false);
   };
 
   return (
@@ -31,10 +39,10 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/comics" className="nav-link">Comics</Link>
-            <Link to="/characters" className="nav-link">Characters</Link>
-            <Link to="/blog" className="nav-link">Blog</Link>
+            <Link to="/" className="nav-link hover:text-marvel-red transition-colors">Home</Link>
+            <Link to="/comics" className="nav-link hover:text-marvel-red transition-colors">Comics</Link>
+            <Link to="/characters" className="nav-link hover:text-marvel-red transition-colors">Characters</Link>
+            <Link to="/blog" className="nav-link hover:text-marvel-red transition-colors">Blog</Link>
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
@@ -60,10 +68,10 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 animate-fade-in">
-            <Link to="/" className="mobile-nav-link block py-2">Home</Link>
-            <Link to="/comics" className="mobile-nav-link block py-2">Comics</Link>
-            <Link to="/characters" className="mobile-nav-link block py-2">Characters</Link>
-            <Link to="/blog" className="mobile-nav-link block py-2">Blog</Link>
+            <button onClick={() => handleNavigation("/")} className="mobile-nav-link block py-2 w-full text-left">Home</button>
+            <button onClick={() => handleNavigation("/comics")} className="mobile-nav-link block py-2 w-full text-left">Comics</button>
+            <button onClick={() => handleNavigation("/characters")} className="mobile-nav-link block py-2 w-full text-left">Characters</button>
+            <button onClick={() => handleNavigation("/blog")} className="mobile-nav-link block py-2 w-full text-left">Blog</button>
             <form onSubmit={handleSearch} className="mt-4">
               <div className="relative">
                 <input
