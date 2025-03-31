@@ -25,12 +25,18 @@ const queryClient = new QueryClient({
   },
 });
 
+// Get base URL from environment or default to '/'
+const getBasename = () => {
+  // For GitHub Pages deployment
+  return process.env.NODE_ENV === 'production' ? './' : '/';
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner position="top-right" closeButton richColors />
-      <BrowserRouter>
+      <BrowserRouter basename={getBasename()}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
