@@ -25,10 +25,10 @@ const queryClient = new QueryClient({
   },
 });
 
-// Get base URL from environment or default to '/'
+// Get base URL from environment or repo name
 const getBasename = () => {
   // For GitHub Pages deployment
-  return process.env.NODE_ENV === 'production' ? './' : '/';
+  return process.env.NODE_ENV === 'production' ? '/Marvel-Comics' : '/';
 };
 
 const App = () => (

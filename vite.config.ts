@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: './', // Add base path for GitHub Pages
+  base: '/Marvel-Comics/', // Set to your repo name
   plugins: [
     react(),
     mode === 'development' &&
