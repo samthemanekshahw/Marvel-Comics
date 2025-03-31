@@ -1,4 +1,5 @@
 // This file contains the data for all blog articles
+import { generateRichBlogContent, generateShortPreview } from "@/utils/blogContentGenerator";
 
 export interface BlogPost {
   id: number;
